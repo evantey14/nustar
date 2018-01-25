@@ -1,0 +1,20 @@
+ignore *:**-3.0 10.0-**
+ignore bad
+abund wilm
+xsect vern
+model {tbabs*(apec+gaus+po)} & {1} & {1} & {1} & {0} & {1} & {6.5} & {0.1} & {1} & {1} & {1} 
+fit 1000
+log logs/STEM_tbabsapecgauspo310_params.log
+show fit
+log none
+freeze 1-10
+editmod {cflux*tbabs*(apec+gaus+po)} & {3} & {10} & {-12}
+fit 1000
+log logs/STEM_tbabsapecgauspo310_flux.log
+show fit
+error 3
+log none
+cpd images/STEM_tbabsapecgauspo310.ps/cps
+setplot energy
+plot ldata
+cpd none

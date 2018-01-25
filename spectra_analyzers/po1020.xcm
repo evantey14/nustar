@@ -1,0 +1,21 @@
+ignore *:**-10.0 20.0-**
+ignore bad
+abund wilm
+xsect vern
+model {powerlaw} & {2} & {1} 
+fit 1000
+log logs/STEM_po1020_params.log
+show fit
+error 1
+log none
+freeze 1-2
+editmod {cflux*powerlaw} & {10} & {20} & {-11}
+fit 1000
+log logs/STEM_po1020_flux.log
+show fit
+error 3
+log none
+cpd images/STEM_po1020.ps/cps
+setplot energy
+plot ldata
+cpd none

@@ -1,0 +1,9 @@
+ignore *:**-3.0 10.0-**
+ignore bad
+abund wilm
+xsect vern
+setplot energy
+setplot background
+cpd images/STEM_310.ps/cps
+plot ldata
+cpd none
