@@ -56,9 +56,16 @@ def bin_pha(infile, grpfile, outfile):
 def xspec(working_directory, data, analysis, stemout):
     # Perform xspec analysis on data using prewritten analysis
     os.chdir(working_directory) # xspec has trouble reading far away files
-    if(os.path.isfile(data)):
+
+    inputdata = None 
+    if(isinstance(data, str)):
+        inputdata = data if os.path.isfile(data) else None
+    elif(isinstance(data, list)):
+        inputdata = ' '.join(spectrum for spectrum in data if os.path.isfile(spectrum))
+ 
+    if(inputdata is not None):
         with open('xspec_tmp.xcm', 'w') as f:
-            f.write('data ' + data + '\n')
+            f.write('data ' + inputdata + '\n')
             
             with open(analysis) as af:
                 for line in af:
