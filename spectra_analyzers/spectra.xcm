@@ -1,8 +1,7 @@
-ignore *:**-3.0 10.0-**
 ignore bad
 abund wilm
 xsect vern
 setplot energy
-cpd images/STEM_310.ps/cps
+cpd images/STEM.ps/cps
 plot ldata
 cpd none

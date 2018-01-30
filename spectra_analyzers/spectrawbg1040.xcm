@@ -1,0 +1,9 @@
+ignore *:**-10.0 40.0-**
+ignore bad
+abund wilm
+xsect vern
+setplot energy
+setplot background
+cpd images/STEM_wbg_1040.ps/cps
+plot ldata
+cpd none

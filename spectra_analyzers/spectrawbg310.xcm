@@ -3,6 +3,7 @@ ignore bad
 abund wilm
 xsect vern
 setplot energy
-cpd images/STEM_310.ps/cps
+setplot background
+cpd images/STEM_wbg_310.ps/cps
 plot ldata
 cpd none
