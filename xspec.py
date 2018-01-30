@@ -19,6 +19,18 @@ def input_individual(analysis_file):
         args.append((working_directory, data, analysis, stemout))
     return args
 
+def input_individualASW(analysis_file):
+    args = []
+    module = 'A'
+    region = 'SW'
+    working_directory = data_path + '/' + 'individual'
+    data = ['nu' + observation + module + region + '_sr_bin.pha'
+            for observation in observations]
+    analysis = analysis_path + '/' + analysis_file
+    stemout = module + region
+    args.append((working_directory, data, analysis, stemout))
+    return args
+
 def input_combined(analysis_file):
     args = []
     for year, module, region in list(itertools.product(years, modules, regions)):
@@ -29,4 +41,4 @@ def input_combined(analysis_file):
         args.append((working_directory, data, analysis, stemout))
     return args
 
-run(input_combined('po2040.xcm'), xspec) 
+run(input_individualASW('spectrawbg1040.xcm'), xspec) 
