@@ -23,7 +23,7 @@ def input_observations():
         args.append((infile, bgfile, outfile, minbincount, is_individual))
     return args
 
-def input_year_module_region():
+def input_combined():
     args = []
     working_directory = data_path + '/' + 'combined'
     for year, module, region in list(itertools.product(years, modules, regions)):
@@ -38,4 +38,22 @@ def input_year_module_region():
         args.append((infile, bgfile, outfile, minbincount, is_individual))
     return args 
 
-run(input_year_module_region(), group_pha)
+def input_clock():
+    args = []
+    working_directory = data_path + '/' + 'clock'
+    observations = ['30001002001', '30001002003', '30302007002', '30302007004']
+    module = 'A'
+    regions = ['9', '10', '11', '12', '1', '2', '3', '4']
+    for observation, region in list(itertools.product(observations, regions)):
+        stem = 'nu' + observation + module + region
+
+        infile = working_directory + '/' + stem + '_sr.pha'
+        bgfile = working_directory + '/' + stem + '_bk.pha'
+        outfile = working_directory + '/' + stem + '_group.dat'
+        minbincount = '20'
+        is_individual = True
+
+        args.append((infile, bgfile, outfile, minbincount, is_individual))
+    return args
+
+run(input_clock(), group_pha)
