@@ -56,4 +56,15 @@ def input_clock():
         args.append((infile, bgfile, outfile, minbincount, is_individual))
     return args
 
-run(input_clock(), group_pha)
+def input_ne():
+    args = []
+    working_directory = data_path + '/' + 'ne'
+    for module in modules:
+        infile = working_directory + '/' + module + '_NE.pha'
+        bgfile = working_directory + '/' + module + '_NE.bak'
+        outfile = working_directory + '/' + module + '_NE_group.dat'
+        minbincount = '20'
+        is_individual = False
+        args.append((infile, bgfile, outfile, minbincount, is_individual))
+    return args
+run(input_ne(), group_pha)

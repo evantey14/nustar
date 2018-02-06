@@ -20,4 +20,16 @@ def input_all():
         args.append((working_directory, input_obs, outfile))
     return args
 
-run(input_all(), addspec)
+def input_ne():
+    args = []
+    working_directory = data_path + '/' + 'ne'
+    observations = ['30001002001', '30001002003', '30001002004', '30302006004', '30302006006', '30302007002', '30302007004']
+    region = 'NE'
+    for module in modules:
+        input_obs = ['nu' + observation + module + region + '_sr.pha'
+                        for observation in observations]
+        outfile = working_directory + '/' + module + '_NE'
+        args.append((working_directory, input_obs, outfile))
+    return args
+
+run(input_ne(), addspec)

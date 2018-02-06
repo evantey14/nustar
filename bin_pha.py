@@ -52,4 +52,13 @@ def input_clock():
         args.append((infile, grpfile, outfile))
     return args
 
-run(input_clock(), bin_pha)
+def input_ne():
+    args = []
+    working_directory = data_path + '/' + 'ne'
+    for module in modules:
+        infile = working_directory + '/' + module + '_NE.pha'
+        grpfile = working_directory + '/' + module + '_NE_group.dat'
+        outfile = working_directory + '/' + module + '_NE_bin.pha'
+        args.append((infile, grpfile, outfile))
+    return args
+run(input_ne(), bin_pha)
