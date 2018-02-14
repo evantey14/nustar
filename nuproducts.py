@@ -100,5 +100,40 @@ def input_annulus():
         args.append((indir, outdir, instrument, steminputs, stemout, srcregionfile, bkgregionfile, evtfile))
     return args
 
-#print(input_annulus())
-run(input_annulus(), nuproducts)
+def input_epanda():
+    args = []
+    observations = ['30001002001', '30001002003', '30302007002', '30302007004']
+    module = 'A'
+    regions = [size + direction
+                    for size, direction
+                    in list(itertools.product(['90', '110', '130'], ['N', 'E', 'S', 'W']))]
+    for observation, region in list(itertools.product(observations, regions)):
+        indir = data_path + '/' + \
+                observation + '/'
+
+        outdir = data_path + '/' + \
+                 observation + '/' + \
+                 'epanda_products' + module + region + '/'
+
+        instrument = 'FPM' + module
+
+        steminputs = 'nu' + observation
+
+        stemout = 'nu' + observation + module + region
+
+        srcregionfile = data_path + '/' + \
+                        'regions' + '/' + \
+                        'epanda' + region + '.reg'
+
+        bkgregionfile = data_path + '/' + \
+                        'regions' + '/' + \
+                        'bg_' + observation + module + '.reg'
+
+        evtfile = indir + steminputs + module + '01_cl.evt'
+
+        args.append((indir, outdir, instrument, steminputs, stemout, srcregionfile, bkgregionfile, evtfile))
+    return args
+
+
+#print(input_epanda())
+run(input_epanda(), nuproducts)

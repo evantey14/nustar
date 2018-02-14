@@ -78,4 +78,22 @@ def input_annulus():
         args.append((infile, grpfile, outfile))
     return args
 
-run(input_annulus(), bin_pha)
+def input_epanda():
+    args = []
+    working_directory = data_path + '/' + 'epanda'
+    observations = ['30001002001', '30001002003', '30302007002', '30302007004']
+    module = 'A'
+    regions = [size + direction
+                    for size, direction
+                    in list(itertools.product(['90', '110', '130'], ['N', 'E', 'S', 'W']))]
+    for observation, region in list(itertools.product(observations, regions)):
+        stem = 'nu' + observation + module + region
+
+        infile = working_directory + '/' + stem + '_sr.pha'
+        grpfile = working_directory + '/' + stem + '_group.dat'
+        outfile = working_directory + '/' + stem + '_sr_bin.pha'
+
+        args.append((infile, grpfile, outfile))
+    return args
+
+run(input_epanda(), bin_pha)
