@@ -32,4 +32,19 @@ def input_ne():
         args.append((working_directory, input_obs, outfile))
     return args
 
-run(input_ne(), addspec)
+def input_annulus_2012_combined():
+    args = []
+    working_directory = data_path + '/' + 'annulus_2012_combined'
+    year = '2012'
+    module = 'A'
+    regions = ['90', '110', '130']
+    observations = ['30001002001', '30001002003']
+    for region in regions:
+        input_obs = ['nu' + observation + module + region + '_sr.pha'
+                        for observation in observations]
+        outfile = working_directory + '/' + year + module + region
+        args.append((working_directory, input_obs, outfile))
+    return args
+
+#print(input_annulus())
+run(input_annulus_2012_combined(), addspec)

@@ -78,6 +78,24 @@ def input_annulus():
         args.append((infile, grpfile, outfile))
     return args
 
+def input_annulus_2012_combined():
+    args = []
+    working_directory = data_path + '/' + 'annulus_2012_combined'
+    year = '2012'
+    module = 'A'
+    regions = ['90', '110', '130']
+    for region in regions:
+        stem = year + module + region
+
+        infile = working_directory + '/' + stem + '.pha'
+        grpfile = working_directory + '/' + stem + '_group.dat'
+        outfile = working_directory + '/' + stem + '_bin.pha'
+
+        args.append((infile, grpfile, outfile))
+
+    return args
+
+
 def input_epanda():
     args = []
     working_directory = data_path + '/' + 'epanda'
@@ -96,4 +114,19 @@ def input_epanda():
         args.append((infile, grpfile, outfile))
     return args
 
-run(input_epanda(), bin_pha)
+def input_extended():
+    args = []
+    working_directory = data_path + '/' + 'extended'
+    observations = ['30001002001', '30001002003', '30001002004']
+    for observation, module, region in list(itertools.product(observations, modules, regions)):
+        stem = 'nu' + observation + module + region
+
+        infile = working_directory + '/' + stem + '_sr.pha'
+        grpfile = working_directory + '/' + stem + '_group.dat'
+        outfile = working_directory + '/' + stem + '_sr_bin.pha'
+
+        args.append((infile, grpfile, outfile))
+    return args
+
+#print(input_annulus_2012_combined())
+run(input_extended(), bin_pha)

@@ -86,6 +86,24 @@ def input_annulus():
         args.append((infile, bgfile, outfile, minbincount, is_individual))
     return args
 
+def input_annulus_2012_combined():
+    args = []
+    working_directory = data_path + '/' + 'annulus_2012_combined'
+    year = '2012'
+    module = 'A'
+    regions = ['90', '110', '130']
+    for region in regions:
+        stem = year + module + region
+
+        infile = working_directory + '/' + stem + '.pha'
+        bgfile = working_directory + '/' + stem + '.bak'
+        outfile = working_directory + '/' + stem + '_group.dat'
+        minbincount = '20'
+        is_individual = False
+
+        args.append((infile, bgfile, outfile, minbincount, is_individual))
+    return args
+
 def input_epanda():
     args = []
     working_directory = data_path + '/' + 'epanda'
@@ -106,5 +124,21 @@ def input_epanda():
         args.append((infile, bgfile, outfile, minbincount, is_individual))
     return args
 
+def input_extended():
+    args = []
+    working_directory = data_path + '/' + 'extended'
+    observations = ['30001002001', '30001002003', '30001002004']
+    for observation, module, region in list(itertools.product(observations, modules, regions)):
+        stem = 'nu' + observation + module + region
 
-run(input_epanda(), group_pha)
+        infile = working_directory + '/' + stem + '_sr.pha'
+        bgfile = working_directory + '/' + stem + '_bk.pha'
+        outfile = working_directory + '/' + stem + '_group.dat'
+        minbincount = '20'
+        is_individual = True
+
+        args.append((infile, bgfile, outfile, minbincount, is_individual))
+    return args
+
+#print(input_annulus_2012_combined())
+run(input_extended(), group_pha)

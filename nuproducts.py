@@ -134,6 +134,35 @@ def input_epanda():
         args.append((indir, outdir, instrument, steminputs, stemout, srcregionfile, bkgregionfile, evtfile))
     return args
 
+def input_extended():
+    args = []
+    observations = ['30001002001', '30001002003', '30001002004']
+    for observation, module, region in list(itertools.product(observations, modules, regions)):
+        indir = data_path + '/' + \
+                observation + '/'
 
-#print(input_epanda())
-run(input_epanda(), nuproducts)
+        outdir = data_path + '/' + \
+                 observation + '/' + \
+                 'extended_products' + module + region + '/'
+
+        instrument = 'FPM' + module
+
+        steminputs = 'nu' + observation
+
+        stemout = 'nu' + observation + module + region
+
+        srcregionfile = data_path + '/' + \
+                        'regions' + '/' + \
+                        'extended_' + region + '.reg'
+
+        bkgregionfile = data_path + '/' + \
+                        'regions' + '/' + \
+                        'bg_' + observation + module + '.reg'
+
+        evtfile = indir + steminputs + module + '01_cl.evt'
+
+        args.append((indir, outdir, instrument, steminputs, stemout, srcregionfile, bkgregionfile, evtfile))
+    return args
+
+#print(input_extended())
+run(input_extended(), nuproducts)
