@@ -1,10 +1,12 @@
+# TODO: add print logging (particularly if files don't exist)
 import os, re
 
 def run(args, function):
+    # runs a nutools function on each argument set given a list of argument sets
     [function(*arg) for arg in args]
 
 def nuproducts(indir, outdir, instrument, steminputs, stemout, srcregionfile, bkgregionfile, evtfile):
-    # Executes nuproducts on a particular observation.
+    # executes nuproducts on a particular observation or do nothing if the files don't exist
     if os.path.isfile(evtfile):
         os.system('nuproducts' + ' ' + \
                 'indir=' + indir + ' ' + \
@@ -17,7 +19,7 @@ def nuproducts(indir, outdir, instrument, steminputs, stemout, srcregionfile, bk
                 'extended=yes')
 
 def addspec(working_directory, observations, outfile):
-    # create list of observations to add, then add with addspec
+    # create list of spectra to add, then generate new source spectra, background spectra, and response file with addspec
     os.chdir(working_directory) # addspec must be called in the directory of input spectra because it tries to extrapolate the names of the response and bg files 
     with open('addspec_tmp.dat', 'w') as f:
         [f.write(observation + '\n') 
@@ -32,16 +34,17 @@ def addspec(working_directory, observations, outfile):
 
 def group_pha(infile, bgfile, outfile, minbincount, is_individual):
     # Create a grouping file by running groupingPHA_(EXPO|BACK).pro 
+    # create a .sh file to run the GDL script on the input spectra (not aware of any better way to do this)
     if(os.path.isfile(infile)):
         with open('remove_bg.sh', 'w') as f:
             gdlfile = 'groupingPHA_BACK.pro' if is_individual else 'groupingPHA_EXPO.pro' 
             f.write('.comp ' + gdlfile + '\n')
-            wrap = lambda x: '\'' + x + '\'' # the GDL scripts expect files wrapped in ' 
-            f.write('groupingpha2,' + wrap(infile) + ',' + wrap(bgfile) + ',' + wrap(outfile) + ',' + minbincount + '\n')
+            quotewrap = lambda x: '\'' + x + '\'' # the GDL scripts expect files wrapped in ' 
+            f.write('groupingpha2,' + quotewrap(infile) + ',' + quotewrap(bgfile) + ',' + quotewrap(outfile) + ',' + minbincount + '\n')
             f.write('exit\n')
             f.close()
 
-        os.system('gdl remove_bg.sh') # Execute script since idk how else to execute it
+        os.system('gdl remove_bg.sh')
         os.remove('remove_bg.sh')
 
 def bin_pha(infile, grpfile, outfile):
