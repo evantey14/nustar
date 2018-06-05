@@ -1,14 +1,12 @@
 # TODO: add print logging (particularly if files don't exist)
 import os, re
 
-def run(args, function):
-    # runs a nutools function on each argument set given a list of argument sets
-    [function(*arg) for arg in args]
-
 def nuproducts(indir, outdir, instrument, steminputs, stemout, srcregionfile, bkgregionfile, evtfile):
-    # executes nuproducts on a particular observation or do nothing if the files don't exist
+    # returns nuproducts command on a particular observation
+    # can't call command because of how nuproducts works
     if os.path.isfile(evtfile):
-        os.system('nuproducts' + ' ' + \
+        print('Calling nuproducts for ' + evtfile)
+        return 'nuproducts' + ' ' + \
                 'indir=' + indir + ' ' + \
                 'outdir=' + outdir + ' ' + \
                 'instrument=' + instrument + ' ' + \
@@ -16,7 +14,13 @@ def nuproducts(indir, outdir, instrument, steminputs, stemout, srcregionfile, bk
                 'stemout=' + stemout + ' ' + \
                 'srcregionfile=' + srcregionfile + ' ' + \
                 'bkgregionfile=' + bkgregionfile + ' ' + \
-                'extended=yes')
+                'imagefile=NONE' + ' ' + \
+                'lcfile=NONE' + ' ' + \
+                'bkglcfile=NONE' + ' ' + \
+                'correctlc=no' + ' ' + \
+                'extended=yes'
+    else:
+        print(evtfile + ' does not exist')
 
 def addspec(working_directory, observations, outfile):
     # create list of spectra to add, then generate new source spectra, background spectra, and response file with addspec
@@ -33,29 +37,43 @@ def addspec(working_directory, observations, outfile):
     os.remove('addspec_tmp.dat')
 
 def group_pha(infile, bgfile, outfile, minbincount, is_individual):
-    # Create a grouping file by running groupingPHA_(EXPO|BACK).pro 
-    # create a .sh file to run the GDL script on the input spectra (not aware of any better way to do this)
+    # Create a grouping file by running groupingPHA_(EXPO|BACK).pro
+    # Create a .sh file to run the GDL script on the input spectra (not aware of any better way to do this)
     if(os.path.isfile(infile)):
+        print('grouping ' + infile)
         with open('remove_bg.sh', 'w') as f:
-            gdlfile = 'groupingPHA_BACK.pro' if is_individual else 'groupingPHA_EXPO.pro' 
+            gdlfile = os.path.dirname(__file__) + '/' + \
+                ('groupingPHA_BACK.pro' if is_individual else 'groupingPHA_EXPO.pro')
+            
+            quotewrap = lambda x: '\'' + x + '\'' # the GDL scripts expect files wrapped in single quotes
+            
             f.write('.comp ' + gdlfile + '\n')
-            quotewrap = lambda x: '\'' + x + '\'' # the GDL scripts expect files wrapped in ' 
-            f.write('groupingpha2,' + quotewrap(infile) + ',' + quotewrap(bgfile) + ',' + quotewrap(outfile) + ',' + minbincount + '\n')
+            f.write('groupingpha2,' + quotewrap(infile) + ',' + \
+                        quotewrap(bgfile) + ',' + \
+                        quotewrap(outfile) + ',' + \
+                        minbincount + '\n')
             f.write('exit\n')
+            
             f.close()
 
         os.system('gdl remove_bg.sh')
         os.remove('remove_bg.sh')
+    else:
+        print(infile + ' does not exist')
 
 def bin_pha(infile, grpfile, outfile):
     # Bin pha file using grppha and grouping file created by group_pha
     if(os.path.isfile(infile)):
+        print('binning ' + infile)
         os.system('grppha' + ' ' + \
                         infile + ' ' + \
                         '!' + outfile + ' ' + \
-                        '\'' + ' ' + 'group' + ' ' + grpfile + '\'' + ' ' + \
+                        '\'' + 'group' + ' ' + grpfile + '\'' + ' ' + \
                         'exit')
+    else:
+        print(infile + ' does not exist')
 
+# The following functions are deprecated in favor of in sherpa xspec analysis
 def xspec(working_directory, data, analysis, stemout):
     # Perform xspec analysis on data using prewritten analysis
     os.chdir(working_directory) # xspec has trouble reading far away files
