@@ -140,5 +140,22 @@ def input_extended():
         args.append((infile, bgfile, outfile, minbincount, is_individual))
     return args
 
+def input_simulation():
+    args = []
+    working_directory = data_path + '/' + 'simulations'
+    models = ['po', 'bremss']
+    params = ['min', 'best', 'max']
+    for model, param in list(itertools.product(models, params)):
+        stem = model + param
+
+        infile = working_directory + '/' + stem + '.fak'
+        bgfile = working_directory + '/' + stem + '_bkg.fak'
+        outfile = working_directory + '/' + stem + '_group.dat'
+        minbincount = '20'
+        is_individual = True
+
+        args.append((infile, bgfile, outfile, minbincount, is_individual))
+    return args
+
 #print(input_annulus_2012_combined())
-run(input_extended(), group_pha)
+run(input_simulation(), group_pha)

@@ -128,5 +128,20 @@ def input_extended():
         args.append((infile, grpfile, outfile))
     return args
 
+def input_simulation():
+    args = []
+    working_directory = data_path + '/' + 'simulations'
+    models = ['po', 'bremss']
+    params = ['min', 'best', 'max']
+    for model, param in list(itertools.product(models, params)):
+        stem = model + param
+
+        infile = working_directory + '/' + stem + '.fak'
+        grpfile = working_directory + '/' + stem + '_group.dat'
+        outfile = working_directory + '/' + stem + '_bin.fak'
+
+        args.append((infile, grpfile, outfile))
+    return args
+
 #print(input_annulus_2012_combined())
-run(input_extended(), bin_pha)
+run(input_simulation(), bin_pha)

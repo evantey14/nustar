@@ -34,8 +34,31 @@ def input_combined(analysis, logtype, params):
         args.append((logid, logfile, params))
     return args
 
+def parse_simulation():
+    from nutools import parse_red_chisq, number
+    import re
+    working_directory = data_path + '/' + 'simulations/logs'
+    models = ['po', 'bremss']
+    params = ['min', 'best', 'max']
+    analyses = ['tbabspofit', 'tbabsbremssfit', 'tbabspofit10', 'tbabsbremssfit10', 'pofit20', 'bremssfit20']
+
+    for model, param, analysis in list(itertools.product(models, params, analyses)):
+        stem = model + param + '_' + analysis
+        logfile = working_directory + '/' + stem + '.log' 
+        line = stem
+        with open(logfile) as f:
+            log = f.read()
+            line += ',' + parse_red_chisq(log)
+            matches = re.findall(number + '\s*\+\/\-', log) 
+            for i in range(len(matches)):
+                line += ',' + matches[i].split()[0] 
+       
+        print(line)
+
+parse_simulation()
+
 # useful analysis & parameters:
 # po phoindex (1)
 # tbabsapec kT (1) nH (2)
 
-run(input_individual('po1020', 'params', [1]), parse_xspec_log)
+#run(input_individual('po1020', 'params', [1]), parse_xspec_log)
