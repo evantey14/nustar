@@ -1,0 +1,27 @@
+xsect vern
+abund wilm
+
+setplot energy
+
+ignore **-10.0
+
+model tbabs*po & {16.4} & {1.5} & {1.6e-4}
+fit 1000
+log logs/STEM_tbabspofit10.log
+show fit
+show param
+log none
+cpd images/STEM_tbabspofit10.ps/cps
+plot ldata
+cpd none
+
+
+model tbabs*bremss & {16.4} & {50} & {1.9e-4}
+fit 1000
+log logs/STEM_tbabsbremssfit10.log
+show fit
+show param
+log none
+cpd images/STEM_tbabsbremssfit10.ps/cps
+plot ldata
+cpd none
