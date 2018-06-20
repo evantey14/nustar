@@ -6,14 +6,10 @@ The main idea is to provide a clean and organized interface (via Python) for cal
 Note that this framework is _not_ meant as a substitute for the existing tools (i.e. it's dangerous to only understand the framework). Since the framework is just an interface, it's  _extremely_ important to understand the underlying tools being called. This also means the framework might not work in all cases. In these situations, you should default to using the original tools or you should carefully modify the framework to fit your needs.
 
 ## Native Spectral Analysis
-The first step to using this framework is understanding the existing toolset. If you feel comfortable using `nuproducts`, `grppha`, `xspec` extract, bin, and analyze spectra feel free to continue. If you need a refresher, see [NATIVE_ANALYSIS.md](NATIVE_ANALYSIS.md)
+The first step to using this framework is understanding the existing toolset. If you feel comfortable using `nuproducts`, `grppha`, and `xspec` to extract, bin, and analyze spectra feel free to continue. If you need a refresher, see [NATIVE_ANALYSIS.md](NATIVE_ANALYSIS.md)
 
-## Getting Started
-
-No prior setup is required -- you should just clone/download the repository.
-
-### File Management
-The root directory is divided into packaged tools and experiments. The tools are utilies used in experiments. Experiments are a set of Jupyter notebooks created to answer some question (e.g. Are the 2017 fluxes from the NE and SW regions consistent with the 2012 fluxes?). The purpose of this is to keep analyses organized and goal-oriented.
+## File Management
+The root directory of this repository is divided into *packaged tools* and *experiments*. The tools are utilities used in experiments. Experiments are a set of Jupyter notebooks created to answer some question (e.g. Are the 2017 fluxes from the NE and SW regions consistent with the 2012 fluxes?). The purpose of this is to keep analyses organized and goal-oriented.
 
 The tool files are arranged as follows:
 * `nutools/__init__.py `: python file that maps python functions to command line commands (e.g. `bin_pha(infile, grpfile, outfile)` bins a spectrum using grppha and a grouping file)
@@ -26,10 +22,26 @@ Experiment folders are arranged as follows:
 * `experiments/EXP_NAME/regions/`: Default location for region files. 
 * `experiments/EXP_NAME/products/`: Default location for nuproducts products (spectra, response, and background files).
 
-### Conducting an experiment
-Start the notebook server by calling `jupyter notebook` in the project's root directory. Follow the link provided to open the browser interface. From here, you can create experiment folders and notebooks to start conducting analyses. To kill the server, type `ctrl-c` then `y`. 
+## Getting Started
 
-The main divergence from the native analysis is the use of [Sherpa](https://github.com/sherpa/sherpa) XSPEC. Sherpa provides XSPEC functions directly in Python, so there is no need to create our own interface between the two. You can find documentation [here](http://cxc.cfa.harvard.edu/sherpa/ahelp/index_context.html) and examples [here](https://github.com/sherpa/sherpa/wiki). 
+No prior software setup is required -- you should just clone/download the repository.
+
+### Creating an experiment
+When creating an experiment, you should first know what you're trying to accomplish with the experiment. Next, create a folder for it in the `experiments/` directory.
+
+### Setting up an experiment
+If relevant, create a `config.py` file with any configuration variables that are global to your experiment. This can include, for example, the path to the data you're analyzing.
+
+### Conducting an experiment
+The first step in conducting any experiment is to try the analysis with *native tools* to make sure it works and to make sure you understand what's going on.
+ 
+Next, start the notebook server by calling `jupyter notebook` in the project's root directory. Follow the link provided to open the browser interface. From here, you can create notebooks to start conducting analyses. To kill the server, type `ctrl-c` then `y`. 
+
+The interfacing between python and native tools can be found in [nutools/__init__.py](nutools/__init__.py). 
+
+The main divergence from the native analysis is the use of [Sherpa](https://github.com/sherpa/sherpa) XSPEC. Sherpa provides XSPEC functions directly in Python, so there is no need to create our own interface between the two. You can find documentation [here](http://cxc.cfa.harvard.edu/sherpa/ahelp/index_context.html) and examples [here](https://github.com/sherpa/sherpa/wiki). Unfortunately, Sherpa is not a completely substitute for XSPEC, so use of XSPEC might sometimes still be required.  
+
+Periodically, you should stop to clean up your notebooks -- organizing code/files and adding useful comments. When the experiment is eventually completed, it's recommended to create a mini results document/notebook to summarize the purpose, procedure, results, and conclusion of the experiment.
 
 See [experiments/fluxconsistency](experiments/fluxconsistency/) for an example of an experiment.
 
