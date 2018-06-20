@@ -1,0 +1,18 @@
+chatter 0
+data INFILE 
+arf none
+ignore **-3.0 10.0-**
+abund wilm
+xsect vern
+model {tbabs*(apec+gaus+po)} & {1} & {1} & {1} & {0} & {1} & {6.5} & {.1} & {1} & {1} & {1}
+fit
+chatter 10
+show fit
+chatter 0
+freeze 1-10
+editmod {cflux*tbabs*(apec+gaus+po)} & {3} & {10} & {-11}
+fit
+chatter 10
+show fit
+error 3
+chatter 0

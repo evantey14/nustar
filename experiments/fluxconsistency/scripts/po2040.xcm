@@ -1,0 +1,19 @@
+chatter 0
+data INFILE 
+arf none
+ignore **-20.0 40.0-**
+abund wilm
+xsect vern
+model {powerlaw} & {2} & {1}
+fit
+chatter 10
+show fit
+error 1 2
+chatter 0
+freeze 1-2
+editmod {cflux*powerlaw} & {20} & {40} & {-11}
+fit
+chatter 10
+show fit
+error 3
+chatter 0
