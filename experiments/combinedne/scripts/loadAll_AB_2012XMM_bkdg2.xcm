@@ -1,0 +1,32 @@
+set xs_echo_script 0
+chatter 0
+statistic chi
+data 1:1 XMM_2012_bkgd2/XMM2012_bkgd2_pn_vg20.pha
+response  1:1 XMM_2012_bkgd2/XMM2012_bkgd2_pn.resp
+backgrnd 1 XMM_2012_bkgd2/XMM2012_bkgd2_pn_bkgd.pha
+
+data 2:2 XMM_2012_bkgd2/ridge_polygon_NE_small_0694640301_mos1_vg20.pha
+response  1:2 XMM_2012_bkgd2/ridge_polygon_NE_small_0694640301_mos1.rmf
+arf 1:2 XMM_2012_bkgd2/ridge_polygon_NE_small_0694640301_mos1.arf
+backgrnd 2 XMM_2012_bkgd2/ridge_polygon_NE_small_0694640301_bkg_mos1.pha
+
+data 3:3 XMM_2012_bkgd2/XMM2012_bkgd2_mos2_vg20.pha
+response  1:3 XMM_2012_bkgd2/XMM2012_bkgd2_mos2.resp
+backgrnd 3 XMM_2012_bkgd2/XMM2012_bkgd2_mos2_bkgd.pha
+
+data 4:4 products/A_NE_bin.pha
+response 1:4 products/A_NE.rsp
+backgrnd 4 products/A_NE.bak
+
+data 5:5 products/B_NE_bin.pha
+response 1:5 products/B_NE.rsp
+backgrnd 5 products/B_NE.bak
+
+ignore 1:1-30,442-448 2:1-4,109 3:1-11,152 4:1-104,228-229 5:1-99,150
+
+method leven 100 0.01
+abund wilm
+xsect vern
+cosmo 70 0 0.73
+xset delta 0.01
+systematic 0

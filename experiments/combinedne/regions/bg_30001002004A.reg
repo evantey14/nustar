@@ -1,0 +1,6 @@
+# Region file format: DS9 version 4.1
+# Filename: nu30001002004A01_cl.evt[EVENTS]
+global color=green dashlist=8 3 width=1 font="helvetica 10 normal roman" select=1 highlite=1 dash=0 fixed=0 edit=1 move=1 delete=1 include=1 source=1
+fk5
+polygon(17:45:44.499,-28:57:25.34,17:45:46.959,-28:56:24.13,17:45:46.556,-28:55:50.81,17:45:32.637,-28:56:35.81,17:45:34.509,-28:57:49.56) # color=red width=2
+polygon(17:45:59.800,-28:59:35.18,17:45:56.604,-28:58:32.76,17:45:55.902,-28:58:14.42,17:45:51.205,-28:58:46.56,17:45:54.930,-29:00:04.71) # color=red width=2

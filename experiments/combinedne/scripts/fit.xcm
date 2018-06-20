@@ -1,0 +1,6 @@
+set xs_echo_script 0
+fit
+chatter 10
+show fit
+error 11
+exit
