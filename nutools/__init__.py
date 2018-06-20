@@ -22,9 +22,12 @@ def nuproducts(indir, outdir, instrument, steminputs, stemout, srcregionfile, bk
     else:
         print(evtfile + ' does not exist')
 
-def addspec(working_directory, observations, outfile):
+def addspec(working_directory, product_directory, observations, outfile):
     # create list of spectra to add, then generate new source spectra, background spectra, and response file with addspec
-    os.chdir(working_directory) # addspec must be called in the directory of input spectra because it tries to extrapolate the names of the response and bg files 
+    os.chdir(product_directory) # addspec must be called in the directory of input spectra because it tries to extrapolate the names of the response and bg files 
+
+    print('Adding spectra: ' + outfile + ' ' + '|'.join(observations))
+
     with open('addspec_tmp.dat', 'w') as f:
         [f.write(observation + '\n') 
             for observation in observations 
@@ -35,6 +38,8 @@ def addspec(working_directory, observations, outfile):
                 'qaddrmf=yes' + ' ' + \
                 'qsubback=yes') # outfile must not already exist. ! prevents addspec from finding files and clobber doesn't work 
     os.remove('addspec_tmp.dat')
+
+    os.chdir(working_directory) # change back to the original directory
 
 def group_pha(infile, bgfile, outfile, minbincount, is_individual):
     # Create a grouping file by running groupingPHA_(EXPO|BACK).pro
@@ -100,7 +105,7 @@ def xspec(working_directory, data, analysis, stemout):
             os.remove('xspec_tmp.xcm')
 
 # capture any number in scientific notation
-number = r'[+\-]?(?:\d*\.\d*)(?:[Ee][+\-]?\d+)?'
+number = r'[+\-]?\d*\.?\d+(?:[Ee][+\-]?\d+)?'
 
 # capture xspec log number ranges which look like "min max (min-val,max-val)"
 number_range = r'' + number + '\s*' + number + '\s*\(' + number + ',' + number + '\)'
