@@ -1,4 +1,4 @@
-# pure python verstion of chxe model.ipynb because this is faster
+# pure python verstion of single_gaussian_component_model.ipynb because this is faster
 import sherpa.astro.ui as shp
 import utils
 
