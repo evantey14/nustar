@@ -4,10 +4,10 @@ import os
 import sherpa.astro.ui as shp
 
 # load combined mosaic, exposure map, and psf file
-def setup(filename):
-    shp.load_data(filename)
+def setup(imgfile, emapfile):
+    shp.load_data(imgfile)
 
-    shp.load_table_model('emap', 'nuexpo_fin_combined.img')
+    shp.load_table_model('emap', emapfile)
     shp.freeze(emap.ampl)
 
     # we're using an on axis psf provided in 
