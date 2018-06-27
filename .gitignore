@@ -3,3 +3,6 @@
 experiments/*/products/
 *.img
 *.fits
+*.sav
+*.png
+*.dat
